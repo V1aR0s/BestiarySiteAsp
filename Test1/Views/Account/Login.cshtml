@@ -1,0 +1,41 @@
+﻿@model Test1.ViewModels.LoginViewModel
+
+@{
+    ViewData["Title"] = "Login";
+}
+
+
+<div class="bodyLoginReg">
+    <div class="LogRegPage" id="LoginAutoWidth">
+        <div class="LogImage"></div>
+
+        <div class="FormRegisterLogin">
+            <form asp-action="Login">
+                <h1>Логин</h1>
+                <input asp-for="Name" class="form-control" placeholder="Логин" />
+                <input asp-for="Password" class="form-control" placeholder="Пароль"/>
+                <div>
+                    <p style = "max-width:420px; width:100%; display:flex; flex-direction:row; justify-content:start;"><input style = "width:27px; height:27px; margin-right:5px;" asp-for = "RememberMe" type="checkbox" value="" /> Запомнить меня</p>
+                </div>
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <button value="Create" type="submit">Войти</button>
+            </form>
+            <div class="loginWith">
+                <form method="post" asp-action="GoogleLogin">
+                    <button type="submit" name="Google" value="Google"><i class="ri-google-fill"></i></button>
+                </form>
+                <form method="post" asp-action="FacebookLogin">
+                    <button type="submit" name="Facebook" value="Facebook"><i class="ri-facebook-fill"></i></button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@section Scripts {
+    @{
+    await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

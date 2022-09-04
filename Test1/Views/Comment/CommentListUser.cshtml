@@ -1,0 +1,15 @@
+﻿@model IEnumerable<Test1.Models.Comment>
+@inject ApplicationContext context
+<h2>Коментарии:</h2>
+@foreach (var item in Model)
+{
+    <div class="BlockOfComments">
+        @{
+            СreatureArticle art = context.СreatureArticles.Find(item.ArticleId);
+        }
+        <h3> <a asp-action = "Article" asp-controller = "Home" asp-route-id = "@item.ArticleId" style = "color:snow; text-decoration:none;">@art.Name</a> </h3>
+        <p>@item.Text</p>
+        <span>@item.DataTime</span>
+    </div>
+}
+

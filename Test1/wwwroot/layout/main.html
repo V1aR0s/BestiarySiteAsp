@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/style.css">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
+    <title>Document</title>
+</head>
+
+<body>
+    <nav id="navbar">
+        <div class="hamburger" onclick="toggleSidebar()">
+            <i class="ri-menu-line"></i>
+        </div>
+        <img src="./img/svg-editor-image_.png" alt="icon">
+        <div class="dropdown">
+            <img onclick="myFunction()" class="dropbtn" src="./img/147144.png" alt="">
+            <div id="myDropdown" class="dropdown-content">
+                <a href="#"><i class="ri-user-line"></i> Профиль</a>
+                <a href="#"><i class="ri-list-settings-line"></i> Настройки</a>
+                <a href="#"><i class="ri-bookmark-line"></i> Закладки</a>
+                <a href="#"><i class="ri-heart-line"></i> Лайки</a>
+                <a href="#"><i class="ri-logout-box-r-line"></i> Выйти</a>
+            </div>
+        </div>
+    </nav>
+    <div class="backdrop" onclick="toggleSidebar()"></div>
+    <div class="sidebar">
+        <div class="sidebar-search">
+
+
+            <form class="search-form">
+                <label for="search" class="screen-reader-text">Поиск</label>
+                <input id="search" type="search" class="search-input" placeholder="Введите, что желаете найти">
+                <button class="search-button"><i class="ri-search-line"></i></button>
+            </form>
+
+
+        </div>
+        <div class="sidebar-list">
+            <li class="sidebar-item">
+                <a href="#"><i class="ri-home-2-line"></i>Домашняя</a>
+            </li>
+            <li class="sidebar-item">
+                <a href="#"><i class="ri-function-line"></i>Категории</a>
+            </li>
+            <li class="sidebar-item">
+                <a href="#"><i class="ri-align-left"></i></i>Перечень</a>
+            </li>
+            <li class="sidebar-item">
+                <a href="#"><i class="ri-book-line"></i>Библиоека</a>
+            </li>
+        </div>
+    </div>
+
+    <div class="Body">
+        <div class="BodyMainInfo">
+            <div class="ContentBlocks">
+                <div class="sortValue">
+                    <h4>Сортировка по:</h4>
+                    <div>
+                        <a href="">Алфавит<i class="ri-arrow-down-line"></i></a>
+                        <a href="">Дата<i class="ri-arrow-down-line"></i></a>
+                        <a href="">Популярность<i class="ri-arrow-down-line"></i></a>
+                    </div>
+                </div>
+                <div class="Filters">
+                    <button type="button" onclick="OpenFilters()" id="filterButton" class="collapseButton">Фильтры</button>
+                    <div class="collapseContent" id="filterContent" >
+                        <div class="containerCheckBoxes">
+                            <ul class="ks-cboxtags">
+                              <h2>Мифология:</h2>
+                              <li><input type="checkbox" id="checkboxOne" value="Rainbow Dash"><label for="checkboxOne">Славянская</label></li>
+                              <li><input type="checkbox" id="checkboxTwo" value="Cotton Candy"><label for="checkboxTwo">Римская</label></li>
+                              <li><input type="checkbox" id="checkboxThree" value="Rarity"><label for="checkboxThree">Египетская</label></li>
+                              <li><input type="checkbox" id="checkboxFour" value="Moondancer"><label for="checkboxFour">Украинская</label></li>
+                              <li><input type="checkbox" id="checkboxFive" value="Surprise"><label for="checkboxFive">Греческая</label></li>
+
+                              <li><input type="checkbox" id="checkboxSix" value="Rainbow Dash"><label for="checkboxSix">Славянская</label></li>
+                              <li><input type="checkbox" id="checkboxSeven" value="Cotton Candy"><label for="checkboxSeven">Египетская</label></li>
+
+                            </ul>
+                            <ul class="ks-cboxtags">
+                              <h2>Дружелюбие:</h2>
+                              <li><input type="checkbox" id="1" value="Rainbow Dash"><label for="1">Дружелюные</label></li>
+                              <li><input type="checkbox" id="2" value="Cotton Candy"><label for="2">Враждебные</label></li>
+                              <li><input type="checkbox" id="3" value="Rarity"><label for="3">Нейтральные</label></li>
+
+                            </ul>               
+                        </div>
+                    </div>
+                </div>
+                <div class="ContentBlock">
+                    <img src="./img/Baba 2.jpg" alt="">
+                    <div class="MainInfoContentBlock">
+                        <h2>Баба Яга <div class="DangerStatus"></div>
+                        </h2>
+
+                        <p>В славянской мифологии и фольклоре живущая в лесу старуха-чародейка с «костяной ногой». Живет
+                            она в избушке на курьих...</p>
+                        <div>
+                            <span>Славянаская мифология</span>
+                            <span>Дата добаления:14.03.2022</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="ContentBlock">
+                    <img src="./img/lepri 1.png" alt="">
+                    <div class="MainInfoContentBlock">
+                        <h2>Лепрекон<div class="FriendlyStatus"></div>
+                        </h2>
+
+                        <p>Ирландский гномик , разновидность гоблина , сапожник-любитель, отсюда и этимология названия,
+                            башмачник. Лепрехуна часто можно застат...​‌‌​‌‌</p>
+                        <div>
+                            <span>Ирландская мифология</span>
+                            <span>Дата добаления:14.03.2022</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="ContentBlock">
+                    <img src="./img/domovoi 1.png" alt="">
+                    <div class="MainInfoContentBlock">
+                        <h2>Домовой<span class="NetralStatus"></span> </h2>
+
+                        <p>Домовой – дух, хранитель дома и всего, что в нем находится. Выглядит домовой как маленький
+                            старик с большой бородой...</p>
+                        <div>
+                            <span>Славянаская мифология</span>
+                            <span>Дата добаления:14.03.2022</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="ContentBlock">
+                    <img src="./img/Baba 2.jpg" alt="">
+                    <div class="MainInfoContentBlock">
+                        <h2>Баба Яга <div class="DangerStatus"></div>
+                        </h2>
+
+                        <p>В славянской мифологии и фольклоре живущая в лесу старуха-чародейка с «костяной ногой». Живет
+                            она в избушке на курьих...</p>
+                        <div>
+                            <span>Славянаская мифология</span>
+                            <span>Дата добаления:14.03.2022</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="ContentBlock">
+                    <img src="./img/lepri 1.png" alt="">
+                    <div class="MainInfoContentBlock">
+                        <h2>Лепрекон<div class="FriendlyStatus"></div>
+                        </h2>
+
+                        <p>Ирландский гномик , разновидность гоблина , сапожник-любитель, отсюда и этимология названия,
+                            башмачник. Лепрехуна часто можно застат...​‌‌​‌‌</p>
+                        <div>
+                            <span>Ирландская мифология</span>
+                            <span>Дата добаления:14.03.2022</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="ContentBlock">
+                    <img src="./img/domovoi 1.png" alt="">
+                    <div class="MainInfoContentBlock">
+                        <h2>Домовой<span class="NetralStatus"></span> </h2>
+
+                        <p>Домовой – дух, хранитель дома и всего, что в нем находится. Выглядит домовой как маленький
+                            старик с большой бородой...</p>
+                        <div>
+                            <span>Славянаская мифология</span>
+                            <span>Дата добаления:14.03.2022</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="ContentBlock">
+                    <img src="./img/Baba 2.jpg" alt="">
+                    <div class="MainInfoContentBlock">
+                        <h2>Баба Яга <div class="DangerStatus"></div>
+                        </h2>
+
+                        <p>В славянской мифологии и фольклоре живущая в лесу старуха-чародейка с «костяной ногой». Живет
+                            она в избушке на курьих...</p>
+                        <div>
+                            <span>Славянаская мифология</span>
+                            <span>Дата добаления:14.03.2022</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="ContentBlock">
+                    <img src="./img/lepri 1.png" alt="">
+                    <div class="MainInfoContentBlock">
+                        <h2>Лепрекон<div class="FriendlyStatus"></div>
+                        </h2>
+
+                        <p>Ирландский гномик , разновидность гоблина , сапожник-любитель, отсюда и этимология названия,
+                            башмачник. Лепрехуна часто можно застат...​‌‌​‌‌</p>
+                        <div>
+                            <span>Ирландская мифология</span>
+                            <span>Дата добаления:14.03.2022</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="ContentBlock">
+                    <img src="./img/domovoi 1.png" alt="">
+                    <div class="MainInfoContentBlock">
+                        <h2>Домовой<span class="NetralStatus"></span> </h2>
+
+                        <p>Домовой – дух, хранитель дома и всего, что в нем находится. Выглядит домовой как маленький
+                            старик с большой бородой...</p>
+                        <div>
+                            <span>Славянаская мифология</span>
+                            <span>Дата добаления:14.03.2022</span>
+                        </div>
+                    </div>
+                </div>
+            
+                <div class="pagination">
+                    <a href="#">«</a>
+                    <a href="#">1</a>
+                    <a class="active" href="#">2</a>
+                    <a href="#">3</a>
+                    <a href="#">4</a>
+                    <a href="#">5</a>
+                    <a href="#">6</a>
+                    <a href="#">»</a>
+                  </div>
+            </div>
+        </div>
+    </div>
+
+
+    <footer>
+        <div class="footer-container">
+            <img src="./img/svg-editor-image_.png" alt="" class="logo">
+            <div class="social-media">
+                <a href="#"><i class="ri-facebook-circle-fill"></i></a>
+                <a href="#"><i class="ri-twitter-fill"></i></a>
+                <a href="#"><i class="ri-instagram-fill"></i></a>
+                <a href="#"><i class="ri-youtube-fill"></i></a>
+            </div>
+            <p class="rights-text">© 2022 Created me</p>
+        </div>
+    </footer>
+
+
+    <script src="./js/script.js"></script>
+</body>
+
+</html>

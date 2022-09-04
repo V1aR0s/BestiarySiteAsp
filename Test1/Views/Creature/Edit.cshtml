@@ -1,0 +1,271 @@
+﻿@model Test1.ViewModels.CreatureViewModel
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "_LayoutAdmin";
+}
+
+
+<h1>Редактировать статью</h1>
+<hr />
+
+
+<div class="row">
+    <div class="col-md-12 row">
+        <form asp-action="Edit" enctype="multipart/form-data" class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input asp-for="Id" type="hidden" />
+                    <div class="form-group col-sm-12">
+                        <label asp-for="Name" class="control-label">Название:</label>
+                        <input asp-for="Name" class="form-control" />
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-sm-12">
+                        <label asp-for="SexId" class="control-label">Пол:</label>
+                        <select asp-for="SexId" class="form-control" asp-items="ViewBag.SexType"></select>
+                    </div>
+                    <div class="form-group col-sm-12">
+                        <label asp-for="dangerTypeId" class="control-label">Дружелюбие</label>
+                        <select asp-for="dangerTypeId" class="form-control" asp-items="ViewBag.DangerType"></select>
+                    </div>
+                    <div class="form-group col-sm-12">
+                        <label asp-for="MythologyId" class="control-label">Мифология</label>
+                        <select asp-for="MythologyId" class="form-control" asp-items="ViewBag.MythologyType"></select>
+                    </div>
+                    <div class="form-group col-sm-12">
+                        <label asp-for="CreatureTypeId" class="control-label">Тип:</label>
+                        <select asp-for="CreatureTypeId" class="form-control" asp-items="ViewBag.CreatureType"></select>
+                    </div>
+                    <div class="form-group col-sm-12">
+                        <div class="form-group">
+                            <label asp-for="Pictures" class="control-label">Обложка:</label>
+                            <div class="mb-3">
+                                <input asp-for="Pictures" type="file" accept="image/*" multiple>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-8">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label asp-for="Literature" class="control-label">Список литературы</label>
+                                <textarea asp-for="Literature" class="form-control" style="height:155px; resize: none;"> </textarea>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label asp-for="Etymology" class="control-label">Этимология</label>
+                                <textarea asp-for="Etymology" class="form-control" style="height:155px; resize: none;"> </textarea>
+                                <span asp-validation-for="Etymology" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label asp-for="AuthorComment" class="control-label">Коментарий автора</label>
+                            <textarea asp-for="AuthorComment" class="form-control" style="height:165px; resize: none;"> </textarea>
+                            <span asp-validation-for="AuthorComment" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr class="bg-light border-2 border-top border-light">
+            <div class="row">
+                <div class="form-group col-md-6">
+
+                    <div class="links" style="margin-bottom:10px">
+                        <! -- Заголовок -->
+                        <a id="button-hThree" href="#" class="btn btn-secondary"><i class="ri-font-size"></i></a>
+
+
+                        <a id="button-b" href="#" class="btn btn-secondary"><i class="ri-bold"></i></a>
+                        <! -- Курсив -->
+                        <a id="button-i" href="#" class="btn btn-secondary"> <i class="ri-italic"></i> </a>
+                        <! -- Параграф -->
+                        <a id="button-p" href="#" class="btn btn-secondary"> <i class="ri-paragraph"></i> </a>
+                        <! -- Ссылка -->
+                        <a id="button-a" href="#" class="btn btn-secondary"><i class="ri-link-m"></i></a>
+                        <! -- Подчеркнутый -->
+                        <a id="button-u" href="#" class="btn btn-secondary"><i class="ri-underline"></i></a>
+                        <! -- Удалить все ссылки -->
+                        <a id="button-del" href="#" class="btn btn-secondary"><i class="ri-delete-bin-4-line"></i> Декорации</a>
+                        <! -- Удалить только параграфы -->
+                        <a id="button-del-p" href="#" class="btn btn-secondary"><i class="ri-delete-bin-4-line"></i> Параграф</a>
+
+                        <a id="button-reset" href="#" class="btn btn-secondary"><i class="ri-refresh-line"></i></a>
+                    </div>
+
+                    <textarea asp-for="Content" class="form-control" style="min-height:286px;" id="TextareaContent" onchange="SetText()" oninput="SetText()"> </textarea>
+                </div>
+                <div class="col-md-6" style="margin-top:15px;" id="TextDemonstration">
+                </div>
+            </div>
+            <div class="row" style="margin-top: 20px;">
+                <div class="form-group col-sm-8">
+                    <label asp-for="articleStateId" class="control-label">Статуст статьи</label>
+                    <select asp-for="articleStateId" class="form-control" asp-items="ViewBag.ArticleState"></select>
+                </div>
+                <div class="form-group col-sm-4">
+                    <input type="submit" value="Сохранить" class="btn btn-primary col-sm-12" style="margin-top:23px;" />
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="row row-cols-1 row-cols-md-3 g-4" style="margin-top:50px;">
+    @foreach (var item in Model.PicturesDeleted)
+    {
+        <div class="col" id = "@("col" + @item.Id.ToString())">
+            <div class="card">
+                <img src="@item.PhotoUrl" class="card-img-top" alt="@item.NameFile">
+                <div class="card-body" style="color:black;">
+                    <h5 class="card-title">@item.NameFile</h5>
+                    <p class="card-text">@item.ContentType <button class="btn btn-danger" onclick = "DeletePicture(@item.Id)">Delete</button> </p>
+                </div>
+            </div>
+        </div>
+    }
+
+
+</div>
+
+
+@section Scripts {
+<script>
+
+     function DeletePicture(id){
+                $.ajax({
+                    url : "/Creature/DeletePicture/" + id,
+                    method : "POST",
+                    success: function(data){
+                        console.log(data)
+                        let del = '#col' + id
+                        $(del).remove();
+                    },
+                    error: function(err){
+                        console.log(err)
+                    }
+                })
+    }
+
+    function SetText() {
+        var text1 = document.getElementById('TextareaContent').value;
+        document.getElementById('TextDemonstration').innerHTML = text1
+    }
+</script>
+
+<script>
+    function addTag(open, close) {
+
+        var control = $('#TextareaContent')[0];
+
+        var start = control.selectionStart;
+
+        var end = control.selectionEnd;
+
+        if (start != end) {
+
+            var text = $(control).val();
+
+            $(control).val(text.substring(0, start) + open + text.substring(start, end) + close + text.substring(end));
+
+            $(control).focus();
+
+            var sel = end + (open + close).length;
+
+            control.setSelectionRange(sel, sel);
+
+        }
+
+        return false;
+    }
+    // Жирный
+    $('#button-b').click(function () {
+        return addTag('<b>', '</b>');
+    });
+    $('#button-del').click(function () {
+        let control = $('#TextareaContent')[0];
+
+        let start = control.selectionStart;
+
+        let end = control.selectionEnd;
+
+        if (start != end) {
+
+            let text = $(control).val();
+            let Left = text.substring(0, start)
+            let MainText = text.substring(start, end)
+            let Right = text.substring(end)
+
+            var result = MainText.replace(/<[^>]+>/g, '');
+            $(control).val(Left + result + Right);
+
+            $(control).focus();
+
+            var sel = result.length;
+
+            control.setSelectionRange(sel, sel);
+        }
+
+        return false;
+    });
+    $('#button-del-p').click(function () {
+        let control = $('#TextareaContent')[0];
+
+        let start = control.selectionStart;
+
+        let end = control.selectionEnd;
+
+        if (start != end) {
+
+            let text = $(control).val();
+            let Left = text.substring(0, start)
+            let MainText = text.substring(start, end)
+            let Right = text.substring(end)
+
+            var resultFirst = MainText.replace(/<[p>]+>/g, '');
+            var result = resultFirst.replace("</p>", '');
+            $(control).val(Left + result + Right);
+
+            $(control).focus();
+
+            var sel = result.length;
+
+            control.setSelectionRange(sel, sel);
+        }
+
+        return false;
+    });
+    // Курсив
+    $('#button-i').click(function () {
+        return addTag('<i>', '</i>');
+    });
+    $('#button-reset').click(function () {
+        SetText()
+    });
+    $('#button-p').click(function () {
+        return addTag('<p>', '</p>');
+    });
+    $('#button-hThree').click(function () {
+        return addTag('<h3>', '</h3>');
+    });
+    // Подчеркнутый
+    $('#button-u').click(function () {
+        return addTag('<u>', '</u>');
+    });
+    $('#button-a').click(function () {
+        return addTag('<a href="' + prompt('Введите адрес', '') + '">', '</a>');
+    });
+    // При клике на кнопки не снимаем фокус с textarea.
+    $('a').on('mousedown', function () {
+        return false;
+    });
+</script>
+
+        @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+        }
+}

@@ -1,0 +1,32 @@
+﻿@using System.Security.Claims
+@model Test1.ViewModels.SupplementUserInfoAfterGoogleViewModel
+@{
+    ViewData["Title"] = "SupplementUserInfo";
+}
+
+
+<div class="bodyLoginReg">
+    <div class="LogRegPage" id="LoginAutoWidth">
+        <div class="LogImage"></div>
+
+        <div class="FormRegisterLogin">
+            <form asp-action="SupplementUserInfo">
+                <h1>Дополнить данные</h1>
+                <input asp-for="Name" class="form-control" placeholder="Логин" />
+                <input type="hidden" asp-for="Id" value = "@User.FindFirst(ClaimTypes.NameIdentifier).Value" class="form-control" />
+                <input asp-for="Password" class="form-control" placeholder="Пароль"/>
+                <input asp-for="ConfirmPassword" class="form-control" placeholder="Подтвердить пароль"/>
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <button value="Create" type="submit">Войти</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+@section Scripts {
+    @{
+    await Html.RenderPartialAsync("_ValidationScriptsPartial");
+}
+}

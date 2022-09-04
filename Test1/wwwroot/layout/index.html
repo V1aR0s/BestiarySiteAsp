@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
+
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Marmelad&family=Pattaya&display=swap" rel="stylesheet">
+
+
+    <link rel="stylesheet" href="css/style.css">
+    <title>Document</title>
+</head>
+
+<body>
+    <nav id="navbar">
+        <div class="hamburger" onclick="toggleSidebar()">
+            <i class="ri-menu-line"></i>
+        </div>
+        <img src="./img/svg-editor-image_.png" alt="icon">
+        <div class="dropdown">
+            <img onclick="myFunction()" class="dropbtn" src="./img/147144.png" alt="">
+            <div id="myDropdown" class="dropdown-content">
+                <a href="#"><i class="ri-user-line"></i> Профиль</a>
+                <a href="#"><i class="ri-list-settings-line"></i> Настройки</a>
+                <a href="#"><i class="ri-bookmark-line"></i> Закладки</a>
+                <a href="#"><i class="ri-heart-line"></i> Лайки</a>
+                <a href="#"><i class="ri-logout-box-r-line"></i> Выйти</a>
+            </div>
+        </div>
+    </nav>
+    
+    <div class="backdrop" onclick="toggleSidebar()"></div>
+    <div class="sidebar">
+        <div class="sidebar-search">
+
+
+            <form class="search-form">
+                <label for="search" class="screen-reader-text">Поиск</label>
+                <input id="search" type="search" class="search-input" placeholder="Введите, что желаете найти">
+                <button class="search-button"><i class="ri-search-line"></i></button>
+            </form>
+
+
+        </div>
+        <div class="sidebar-list">
+            <li class="sidebar-item">
+                <a href="#"><i class="ri-home-2-line"></i>Домашняя</a>
+            </li>
+            <li class="sidebar-item">
+                <a href="#"><i class="ri-function-line"></i>Категории</a>
+            </li>
+            <li class="sidebar-item">
+                <a href="#"><i class="ri-align-left"></i></i>Перечень</a>
+            </li>
+            <li class="sidebar-item">
+                <a href="#"><i class="ri-book-line"></i>Библиоека</a>
+            </li>
+        </div>
+    </div>
+
+    <div class="Body">
+        <div class="HeaderPage" id="blockWithAutoWidth">
+            <div class="MainInfo" id="blockWithAutoWidthOrientation">
+                <h1>Бестиарий</h1>
+                <p>средневековый литературный жанр, каталогизированное описание внешнего вида и повадок некоторых животных. 
+                   Каждый рассказ сопровождается аллегорическим истолкованием - религиозной или моральной максимой, которую можно
+                   извлечь из повадок либо облика того или иного зверя. Средневековые бестиарии, писавшиеся как на латинском языке, 
+                   так и на местных языках тогдашней Европы, возможно, восходят к греческому сочинению Физиолог (первые несохранившиеся
+                   редакции - ок. 2 в., первые сохранившиеся - 5-6 вв.). В Англии элементы этого жанра появляются очень рано - так, в 
+                   Эксетерском кодексе, древнеанглийской рукописной книге 11 в., имеются рассказы Кит, Пантера и Куропатка.
+                   Однако в полном виде сохранился только один бестиарий на среднеанглийском языке, датируемый 13 в.
+                   Он представляет собой перевод (с изменением порядка глав) с латинского Физиолога Теобальда (11 в.).
+                   Отдельные рассказы, написанные в традиции бестиариев, встречаются во многих среднеанглийских рукописях.</p>
+            </div>
+        </div>
+        <div class="Categories">
+            <h1>Типы мифологий</h1>
+            
+            <div class="CategoriesBlock">
+                <div class="Block" style='background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url("./img/background-gd2b35de4f_1920.jpg")'>
+                    <h1>Славянская мифология</h1>
+                </div>
+                <div class="Block" style='background-image:linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url("./img/NavBarBack.jpg")'>
+                    <h1>Славянская мифология</h1>
+                </div>
+                <div class="Block" style='background-image:linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)),url("./img/forest-g9a36574b4_1920.jpg")'>
+                    <h1>Славянская мифология</h1>
+                </div>
+                <div class="Block" style='background-image:linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url("./img/1582106505_43-p-starinnie-knigi-80.jpg")'>
+                    <h1>Славянская мифология</h1>
+                </div>
+                <div class="Block" style='background-image:linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url("./img/background-gd2b35de4f_1920.jpg")'>
+                    <h1>Славянская мифология</h1>
+                </div>
+            </div>
+
+            <div class="buttonKnowMore">
+                <h3>Узнать больше</h3>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-container">
+            <img src="./img/svg-editor-image_.png"
+            alt="" class="logo">
+        <div class="social-media">
+            <a href="#"><i class="ri-facebook-circle-fill"></i></a>
+            <a href="#"><i class="ri-twitter-fill"></i></a>
+            <a href="#"><i class="ri-instagram-fill"></i></a>
+            <a href="#"><i class="ri-youtube-fill"></i></a>
+        </div>
+        <p class="rights-text">© 2022 Created me</p>
+        </div>
+    </footer>
+    <script src="./js/script.js"></script>
+</body>
+
+</html>

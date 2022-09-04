@@ -1,0 +1,112 @@
+﻿@model IEnumerable<Test1.Models.CreatureType>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="container">
+    <h1 id="FormText">Создать:</h1>
+
+    <div class="card mb-3">
+        <form name="EditCreateForm" action="/" method="post" id="EditCreateForm">
+            <input class="form-control" type="hidden" name="IdForm" id="IdForm" />
+            <div  style="display:flex; flex-direction:row; justify-content:space-between; box-sizing:border-box; padding: 10px 20px;">
+                <input class="card-body form-control" type="text" name="NameForm" id="NameForm" placeholder="Название" style="max-width:350px; width:100%; height:40px;" />
+                <div class="btn-group" role="group" aria-label="Basic example">
+                    <input class="btn btn-success" type="button" id="submit" onclick="SendForm()" name="submit" value="Сохранить" />
+                    <button class="btn btn-outline-dark" type="reset" name="reset" onclick="ResetForm()" value="Отменить">Очистить</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<br />
+
+<div class="container" id="TypeContent">
+
+</div>
+
+
+
+@section Scripts
+    {
+
+<script type="text/javascript">
+
+    function SendRequestGet(id){
+                $.ajax({
+                    url : "/CreatureTypes/GetCreatureTypeRequest/" + id,
+                    method : "GET",
+                    success: function(data){
+                        console.log(data)
+                        var res = JSON.parse(data)
+                        $("#IdForm").val(res.Id)
+                        $("#NameForm").val(res.Name)
+                    },
+                    error: function(err){
+                        console.log(err)
+                    }
+                })
+    }
+
+    function SendForm(){
+                let id = $("#IdForm").val()
+                let Name = $("#NameForm").val()
+                if(id == 0){
+                    let obj = {
+                        Id: parseInt(id),
+                        Name: Name
+                    }
+                    SubmitForm(obj)
+                }
+                else{
+                    let obj = {
+                        Id: parseInt(id),
+                        Name: Name
+                    }
+                    SubmitForm(obj)
+                }
+    }
+
+    function SubmitForm(obj){
+                if(obj.Id != 0){
+                     $.ajax({
+                        url: "/CreatureTypes/Edit",
+                        method: "POST",
+                        data: obj,
+                        success: function(data){
+                            CreateList()
+                            ResetForm()
+
+                        }
+                })
+                }
+                else{
+                    $.ajax({
+                        url: "/CreatureTypes/Create",
+                        method: "POST",
+                        data: obj,
+                        success: function(data){
+                            ResetForm()
+                            CreateList()
+                        }
+                    })
+                }
+    }
+
+    function ResetForm(){
+                $("#FormText").text("Создать:")
+                $("#IdForm").val(0)
+                $("#NameForm").val("")
+                console.log($("#IdForm").val())
+    }
+
+    function CreateList(){
+               $('#TypeContent').load('@Url.Action("ListTypes","CreatureTypes")');
+    }
+    ResetForm()
+    CreateList()
+</script>
+    }

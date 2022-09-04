@@ -1,0 +1,24 @@
+﻿@using Microsoft.AspNetCore.Identity
+@model IEnumerable<Test1.Models.Comment>
+@inject UserManager<User> userManager
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+
+
+@foreach (var item in Model)
+{
+    string idBlock = "Block" + item.Id.ToString();
+    <div id = "@idBlock" class="BlockOfComments">
+        @{
+            User user_ = await userManager.FindByIdAsync(item.UserId);
+        }
+        <h3> <a asp-action = "GetUserInfo" asp-controller = "User" asp-route-id = "@item.UserId" style = "color:snow; text-decoration:none;"><img style = "width:30px; height:30px; margin-right:10px;" src="@(user_.PhotoUrl == null ? "/img/avatar.svg" : user_.PhotoUrl)" alt="" /> @user_.UserName</a> </h3>
+        <p>@item.Text</p>
+        <span>@item.DataTime</span>
+        @if(item.UserId == userManager.GetUserId(User))
+        {
+            <span><button onclick = "DeleteCommentuser(@item.Id)" class="ButtonSettingUser">Удалить</button></span>
+        }
+    </div>
+}

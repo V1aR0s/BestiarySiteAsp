@@ -1,0 +1,26 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using Test1.ViewModels
+@{
+     Layout = "_LayoutAdmin";
+}
+@model ChangeUserRolesDTO
+
+<h2>Изменить роли @Model.Name</h2>
+
+
+<form asp-action="EditUserRoles" method = "post">
+
+    <input type="hidden" value="@Model.Id" name = "Id"/>
+    <input type="hidden" value="@Model.Name" name = "Name"/>
+    <input type="hidden" value="@Model.Email" name = "Email"/>
+
+    <div class="form-check">
+        @foreach (IdentityRole role in Model.AllRoles)
+        {
+            <input class="form-check-input" type="checkbox" name="UserRoles" value="@role.Name" @(Model.UserRoles.Contains(role.Name) ? "checked" : "")>
+            @role.Name
+            <br>
+        }
+    </div>
+    <button type="submit" class="btn btn-primary">Сохранить</button>
+</form>

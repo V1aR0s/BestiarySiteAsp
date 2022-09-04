@@ -1,0 +1,81 @@
+﻿@using System.Text.RegularExpressions
+@model Test1.ViewModels.CreatureListViewModel
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+
+
+<div class="BodyMainInfo">
+    <div class="ContentBlocks">
+        @foreach (var item in Model.Articles)
+        {
+            <a asp-controller = "Home" asp-action="Article" asp-route-id="@item.Id" class="ContentBlock" style="text-decoration:none;">
+                <img src="@item.Pictures?.FirstOrDefault()?.PhotoUrl" alt="art">
+                <div class="MainInfoContentBlock">
+                    <h2>
+                        @item.Name
+                        @switch (item.dangerType.Id)
+                        {
+                            @case 1:
+                                <div class="DangerStatus"></div>
+                                break;
+                            @case 2:
+                                <div class="NetralStatus"></div>
+                                break;
+                            @case 3:
+                                <div class="FriendlyStatus"></div>
+                                break;
+                        }
+                    </h2>
+                    <p>
+                        @{
+                            string Text = @item.Content;
+                            int maxLength = 130;
+                            string ContentResult = Text.Substring(0, Math.Min(Text.Length, maxLength)) + "...";
+                            ContentResult = Regex.Replace(ContentResult, @"<[^>]*>", String.Empty);
+                        }
+                       <p>@ContentResult</p>
+                    </p>
+                    <div>
+                        <span>@item.Mythology.Name мифология</span>
+                        <span>Дата добаления:14.03.2022</span>
+                    </div>
+                </div>
+            </a>
+        }
+        <div class="pagination">
+            @if (@Model.CreaturePageViewModel.pageNumber > 1)
+            {
+                <a asp-action = "UserLikes" asp-route-page="@(@Model.CreaturePageViewModel.pageNumber - 1)" >«</a>
+            }
+            else
+            {
+                <a href="">«</a>
+            }
+
+            @for (int i = 1; i <= @Model.CreaturePageViewModel.pageCount; i++)
+            {
+                if (i == Model.CreaturePageViewModel.pageNumber)
+                {
+                    <a asp-action = "UserLikes" class="active" asp-route-page="@i" >@i</a>
+                }
+                else
+                {
+                    <a asp-action = "UserLikes" asp-route-page="@i">@i</a>
+                }
+            }
+
+            @if (@Model.CreaturePageViewModel.pageNumber != Model.CreaturePageViewModel.pageCount)
+            {
+                <a asp-action = "UserLikes" asp-route-page="@(@Model.CreaturePageViewModel.pageNumber + 1)">»</a>
+            }
+            else
+            {
+                <a href="">»</a>
+            }
+        </div>
+    </div>
+</div>

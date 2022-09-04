@@ -1,0 +1,65 @@
+﻿@model Test1.Models.User
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+<div class="BlockMainInfoProfil">
+    <div class="AvatarAboutMe">
+        <div class="avatarProfile">
+            <div class="avatar-upload">
+                <div class="avatar-edit">
+                </div>
+                <div class="avatar-preview">
+                    <div id="imagePreview" style="background-image: url(@(Model.PhotoUrl == null ? "/img/avatar.svg" : Model.PhotoUrl));">
+                    </div>
+                </div>
+                <p id="ImageResult"></p>
+            </div>
+            <h3>@Model.UserName</h3>
+        </div>
+        <div class="AboutMeblockInfo" style = "margin-top:50px;">
+            <p>
+                @if (@Model.AboutMe == null)
+                {
+                    @Html.Raw("Пользователь не указал данных о себе")
+                    ;
+                }
+                else
+                {
+                    @Model.AboutMe
+                }
+            </p>
+            <div>
+                <span style="margin-right:10px;">
+                    Год рождения:
+                    @if (@Model.Year == null)
+                    {
+                        @Html.Raw("---")
+                        ;
+                    }
+                    else
+                    {
+                        @Model.Year
+                    }
+                </span>
+                <span>Зарегестрирован с @Model.RegDate</span>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="CommentsOfThisUser">
+    <div class="BlockWithComments" id = "TypeContent">
+
+    </div>
+</div>
+@section Scripts
+{
+<script type="text/javascript">
+    function CreateList(){
+       $('#TypeContent').load('@Url.Action($"CommentListUser","Comment", new {id = Model.Id})');
+    }
+    CreateList()
+</script>
+}

@@ -1,0 +1,135 @@
+﻿@model Test1.Models.User
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+<div class="BlockMainInfoProfil" style="margin-top:-30px;">
+    <input id="IdUserAsp" type="hidden" value="@Model.Id" />
+    <div class="AvatarAboutMe" style="display:flex; flex-direction:column; align-items:center;">
+        <h3 style="margin-top:60px;">@Model.UserName</h3>
+        <div class="avatar-upload">
+            <div class="avatar-edit">
+                <input type='file' id="imageUpload" accept=".png, .jpg, .jpeg" />
+                <label for="imageUpload"></label>
+            </div>
+            <div class="avatar-preview">
+                <div id="imagePreview" style="background-image: url(@(Model.PhotoUrl == null ? "/img/avatar.svg" : Model.PhotoUrl));">
+                </div>
+            </div>
+            <p id="ImageResult"></p>
+        </div>
+        <div style="margin-top:30px; width:100%; display:flex; justify-content:center;">
+            <div class="AboutMeblockInfo" style="max-width:800px;width:100%;">
+                <h3>Обо мне:</h3>
+                <textarea id="InputAboutMe" class="InputAboutMe" style="width:100%; height:200px; resize:none;">@Model.AboutMe</textarea>
+                <div style="display:flex; flex-direction:row; justify-content:space-between; width:100%;">
+                    <button class="ButtonSettingUser" id="aboutmeButtonChange" onclick="ChangeAboutMe()">сохранить</button>
+                    <p id="resultaboutMe"></p>
+
+                </div>
+                <hr class = "lineHR" />
+
+                <div style="display:flex; flex-direction:column">
+                    <div style="display:flex; flex-direction:column; align-items:start;">
+                        <p>Год рождения: <span id="YearSpan" style="font-size:16px; color:snow;">@Model.Year</span></p>
+                        <div style="display:flex; flex-direction:row; justify-content:start;">
+                            <input class="YearInputNumber" type="number" id="inputYear" value="" />
+                            <button class="ButtonSettingUser" id="yearButtonChange" onclick="ChangeYearResult()">Сохранить</button>
+                        </div>
+                        <p id="resultYear"></p>
+                    </div>
+                    <hr class = "lineHR" />
+                    <div style = "display:flex; flex-direction:column;">
+                        <h3>Изменить пароль:</h3>
+                        <a class = "buttonLinkChangePassword" asp-controller="User" asp-action="ChangePassword" asp-route-id="@Model.Id">Изменить пароль</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+@section Scripts{
+<script type="text/javascript">
+    function ChangeAboutMe(){
+        let aboutme = document.getElementById("InputAboutMe").value
+        let id_ = document.getElementById("IdUserAsp").value
+
+                let obj = {
+                    id: id_,
+                    aboutme: aboutme
+                }
+                console.log(obj)
+                $.ajax({
+                    url: "/User/ChangeAbout",
+                    method: "POST",
+                    data: obj,
+                    success: function(data){
+                        if(data == "0"){
+                            document.getElementById("resultaboutMe").innerText = "Данные не подходят"
+                        }
+                        else{
+                            document.getElementById("InputAboutMe").value = data
+                            document.getElementById("resultaboutMe").innerText = "Данные успешно обновлены"
+                        }
+                    }
+                })
+    }
+
+    function ChangeYearResult(){
+        let year = document.getElementById("inputYear").value
+        let id_ = document.getElementById("IdUserAsp").value
+                let obj = {
+                    id: id_,
+                    year: parseInt(year)
+                }
+                $.ajax({
+                    url: "/User/ChangeYear",
+                    method: "POST",
+                    data: obj,
+                    success: function(data){
+                        if(data == "0"){
+                            document.getElementById("resultYear").innerText = "Данные не подходят"
+                        }
+                        else{
+                            document.getElementById("YearSpan").innerText = data
+                            document.getElementById("resultYear").innerText = "год успешно обновлен"
+                        }
+                    }
+                })
+    }
+    function readURL(input) {
+           let id = document.getElementById("IdUserAsp").value
+           let fd = new FormData
+           fd.append('id', id)
+           fd.append("file", input.files[0])
+
+
+           console.log(fd)
+           $.ajax({
+              url: "/User/ChangeAvatar",
+              method: "POST",
+              data: fd,
+              contentType: false,
+              processData: false,
+              success: function(data){
+                  if (data != "0") {
+                    var reader = new FileReader();
+                    $('#imagePreview').css('background-image', 'url('+data+')');
+                    $('#imagePreview').hide();
+                    $('#imagePreview').fadeIn(650);
+                    console.log(data)
+                    document.getElementById("ImageResult").innerText = "Аватар успешно обновлен"
+                }
+             }
+             })
+
+    }
+    $("#imageUpload").change(function() {
+        readURL(this);
+    });
+</script>
+}

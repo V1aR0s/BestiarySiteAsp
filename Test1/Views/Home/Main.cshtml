@@ -1,0 +1,146 @@
+﻿@using System.Text.RegularExpressions
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@model Test1.ViewModels.CreatureListViewModel
+@{
+    Layout = "_Layout";
+    string str = Model.filtersMain.Cheked.Where(t => !string.IsNullOrEmpty(t)).Aggregate(("", 0), (res, elem) => {
+        if (res.Item2 == 0)
+            res.Item1 += elem;
+        else
+            res.Item1 += @"&Filters=" + elem;
+        res.Item2++;
+        return res;
+    }).Item1;
+
+    /*
+        string strNotAuto = "";
+
+        for(int i = 0; i < Model.filtersMain.Cheked.Count(); i++){
+            if(i == 0){
+                strNotAuto += Model.filtersMain.Cheked[i];
+            }
+            else{
+                strNotAuto += ("Filters="+Model.filtersMain.Cheked[i]);
+            }
+
+            if(i != Model.filtersMain.Cheked.Count() - 1){
+               strNotAuto += @"&";
+            }
+        }
+        string dsaFilters= "Славянская&Filters=Человек";
+    */
+}
+
+<div class="BodyMainInfo">
+    <div class="ContentBlocks">
+        <div class="Filters">
+            <button type="button" onclick="OpenFilters()" id="filterButton" class="collapseButton">Фильтры</button>
+            <div class="collapseContent" id="filterContent">
+                <form class="containerCheckBoxes">
+                    <ul class="ks-cboxtags">
+                        <h2>Мифология:</h2>
+                        @foreach (var item in @Model.filtersMain.mythologies)
+                        {
+                            <li><input name = "Filters" type="checkbox" id="@item.Name" value="@item.Name" @(Model.filtersMain.Cheked.Contains(item.Name) ? "checked" : "")><label for="@item.Name">@item.Name</label></li>
+                        }
+                    </ul>
+                    <ul class="ks-cboxtags">
+                        <h2>Тип:</h2>
+                        @foreach (var item in @Model.filtersMain.creatureTypes)
+                        {
+                            <li><input name = "Filters" type="checkbox" id="@item.Name" value="@item.Name" @(Model.filtersMain.Cheked.Contains(item.Name) ? "checked" : "")><label for="@item.Name">@item.Name</label></li>
+                        }
+                    </ul>
+                    <ul class="ks-cboxtags">
+                        <h2>Дружелюбие:</h2>
+                        @foreach (var item in @Model.filtersMain.dangerTypes)
+                        {
+                            <li><input name = "Filters" type="checkbox" id="@item.Name" value="@item.Name" @(Model.filtersMain.Cheked.Contains(item.Name) ? "checked" : "")><label for="@item.Name">@item.Name</label></li>
+                        }
+                    </ul>
+                    <ul class="ks-cboxtags">
+                        <h2>Пол:</h2>
+                        @foreach (var item in @Model.filtersMain.sexes)
+                        {
+                            <li><input name = "Filters" type="checkbox" id="@item.Name" value="@item.Name" @(Model.filtersMain.Cheked.Contains(item.Name) ? "checked" : "")><label for="@item.Name">@item.Name</label></li>
+                        }
+                    </ul>
+                    <input type="submit" value="Поиск" />
+                </form>
+            </div>
+        </div>
+        @foreach (var item in Model.Articles)
+        {
+            <a asp-action="Article" asp-route-id="@item.Id" class="ContentBlock" style="text-decoration:none;">
+                <img src="@item.Pictures.FirstOrDefault().PhotoUrl" alt="art">
+                <div class="MainInfoContentBlock">
+                    <h2>
+                        @item.Name
+                        @switch (item.dangerType.Id)
+                        {
+                            @case 1:
+                                <div class="DangerStatus"></div>
+                                break;
+                            @case 2:
+                                <div class="NetralStatus"></div>
+                                break;
+                            @case 3:
+                                <div class="FriendlyStatus"></div>
+                                break;
+                        }
+                    </h2>
+                    <p>
+                        @{
+                            string Text = @item.Content;
+                            int maxLength = 130;
+                            string ContentResult = Text.Substring(0, Math.Min(Text.Length, maxLength)) + "...";
+                            ContentResult = Regex.Replace(ContentResult, @"<[^>]*>", String.Empty);
+                        }
+
+                        @Html.Raw(ContentResult)
+                    </p>
+                    <div>
+                        <span>@item.Mythology.Name мифология</span>
+                        @{
+                            DateTime time = Convert.ToDateTime(item.dataCreate.ToString());
+                        }
+                        <span>Опубликованно: @time.ToShortDateString()</span>
+                    </div>
+                </div>
+            </a>
+        }
+        <div class="pagination">
+            @if (@Model.CreaturePageViewModel.pageNumber > 1)
+            {
+                <a asp-route-page="@(@Model.CreaturePageViewModel.pageNumber - 1)" asp-route-Filters= "@str" >«</a>
+            }
+            else
+            {
+                <a href="">«</a>
+            }
+
+            @for (int i = 1; i <= @Model.CreaturePageViewModel.pageCount; i++)
+            {
+                if (i == Model.CreaturePageViewModel.pageNumber)
+                {
+                    <a class="active" asp-route-page="@i" asp-route-Filters= "@str" >@i</a>
+                }
+                else
+                {
+                    <a asp-route-Filters= "@str"  asp-route-page="@i">@i</a>
+                }
+            }
+
+            @if (@Model.CreaturePageViewModel.pageNumber != Model.CreaturePageViewModel.pageCount)
+            {
+                <a asp-route-Filters= "@str" asp-route-page="@(@Model.CreaturePageViewModel.pageNumber + 1)">»</a>
+            }
+            else
+            {
+                <a href="">»</a>
+            }
+        </div>
+    </div>
+</div>

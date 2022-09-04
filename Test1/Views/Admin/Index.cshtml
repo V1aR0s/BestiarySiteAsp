@@ -1,0 +1,41 @@
+﻿@using Microsoft.AspNetCore.Identity
+@model IEnumerable<Test1.Models.Comment>
+@inject ApplicationContext context
+@inject UserManager<User> userManager
+@{
+    Layout = "_LayoutAdmin";
+}
+
+<div class="row"  style = "margin-top:50px;">
+    <div class="col-md-12">
+        <h1>Все коментарии</h1>
+
+        <table class="col-md-12 table table-striped table-dark">
+            <thead>
+                     <tr>
+                        <th scope="col">Id</th>
+                        <th scope="col">Имя</th>
+                        <th scope="col">Коментарий</th>
+                        <th scope="col">Статья</th>
+                        <th scope="col">Опубликованно</th>
+                        <th scope = "col"></th>
+                    </tr>
+            </thead>
+            <tbody>
+                @foreach(var item in Model)
+                {
+                    var user = await userManager.FindByIdAsync(item.UserId);
+                    var art = await context.СreatureArticles.FindAsync(item.ArticleId);
+                    <tr>
+                        <th scope="col">@item.Id</th>
+                        <th scope="col"> <a asp-controller = "User" asp-action = "GetUserInfo" asp-route-id = "@user.Id" style = "text-decoration:none; color:snow;"> @user.UserName </a></th>
+                        <th scope="col">@item.Text</th>
+                        <th scope="col"> <a asp-controller = "Home" asp-action = "Article" asp-route-id = "@art.Id" style = "text-decoration:none; color:snow;"> @art.Name </a></th>
+                        <th scope="col">@item.DataTime.ToString()</th>
+                        <th scope="col"> <a asp-action = "DeleteComment" asp-route-id = "@item.Id" class = "btn btn-danger">Удалить</a></th>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

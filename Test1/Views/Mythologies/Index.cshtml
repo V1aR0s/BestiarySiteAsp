@@ -1,0 +1,44 @@
+﻿@model IEnumerable<Test1.Models.Mythology>
+
+@{
+    ViewData["Title"] = "Редактор мифологий";
+    Layout = "_LayoutAdmin";
+}
+<div id="modDialog" class="modal fade">
+    <div id="dialogContent" class="modal-dialog"></div>
+</div>
+
+
+<div class="container" style="display:flex; flex-direction:row; flex-wrap:wrap; color:black; justify-content:center;">
+    @foreach (var item in Model)
+    {
+        <div class="card" style="width:340px; margin-top:20px; padding:15px;  margin-left:20px; margin-right:20px;">
+            <img src="@item.PhotoUrl" class="card-img-top" style="width:310px; height:310px; border:2px solid #343a40;" alt="@item.NameFile">
+            <div class="card-body">
+                <h5 class="card-title">@Html.DisplayFor(modelItem => item.Name)</h5>
+                <div class="btn-group" role="group" aria-label="Basic example">
+                    <a asp-action="Edit" asp-route-id="@item.Id" type="button" class="btn btn-primary">Изменить</a>
+                    <a asp-action="Details" asp-route-id="@item.Id" type="button" class="btn btn-primary">Подробно</a>
+                    <a asp-action="Delete" asp-route-id="@item.Id" type="button" class="btn btn-primary DeleteModal">Удалить</a>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+
+@section Scripts
+{
+<script type="text/javascript">
+    $(function () {
+       $.ajaxSetup({ cache: false });
+       $(".DeleteModal").click(function (e) {
+            e.preventDefault();
+            $.get(this.href, function (data) {
+                $('#dialogContent').html(data);
+                $('#modDialog').modal('show');
+            });
+        });
+    })
+</script>
+}

@@ -1,0 +1,247 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using System.Security.Claims
+@model Test1.Models.СreatureArticle
+@inject UserManager<User> userManager
+@inject ApplicationContext _context
+@{
+    ViewData["Title"] = "Article";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="BodyMainInfo">
+    <div class="ContentBlocksOnePage">
+        <div class="MainText">
+            <div class="stats">
+                <img class="imageBlockInfo" src="@Model.Pictures.FirstOrDefault().PhotoUrl" alt="@Model.Pictures.FirstOrDefault().NameFile">
+                <div class="textStats">
+                    @{
+                        DateTime time = Convert.ToDateTime(Model.dataCreate.ToString());
+                    }
+                    <h2 style = "text-align:center;">
+                        @Model.Name
+                    </h2>
+                    <h4 style="font-size:20px; margin-bottom:15px;">@Model.Mythology.Name мифология</h4>
+                    <h4 style="font-size:18px;">Тип: @Model.CreatureType.Name</h4>
+                    <h4 style="font-size:20px;">Пол: @Model.Sex.Name</h4>
+                    <h4>
+                        @switch (@Model.dangerType.Id)
+                        {
+                            @case 1:
+                                <div class="DangerStatus"></div>
+                                break;
+                            @case 2:
+                                <div class="NetralStatus"></div>
+                                break;
+                            @case 3:
+                                <div class="FriendlyStatus"></div>
+                                break;
+                        }
+                        Дружелюбие: <span>@Model.dangerType.Name</span>
+                    </h4>
+                    <h4 style='font-size:10px;  '>
+                        опубликованно: @time.ToShortDateString();
+                    </h4>
+                </div>
+            </div>
+            <p class="MainInfoText">
+                @Html.Raw(Model.Content)
+            </p>
+        </div>
+        <div class="gallery">
+            <div class="fotorama" data-allowfullscreen="true" data-width="100%" data-ratio="1600/900" data-nav="thumbs">
+                @foreach (Picture pic in Model.Pictures)
+                {
+                    <img src="@pic.PhotoUrl" alt="@pic.NameFile">
+                }
+            </div>
+        </div>
+
+        <div class="PostInfo">
+            <div class="EtnimologyandAuthorComment">
+                <div>
+                    <h3>Этимология</h3>
+                    @Model.Etymology
+                </div>
+                <div>
+                    <h3>Коментарий автора</h3>
+                    @Model.AuthorComment
+                </div>
+            </div>
+            <div class="LitiratureList">
+                <h3>Список литературы</h3>
+                @Model.Literature
+            </div>
+        </div>
+
+
+
+        <div class="BlockWithComments" style="width:90%;">
+            <div class="BlockOfComments">
+                <h3>Понравилась статья?</h3>
+                @if (User.Identity.IsAuthenticated)
+                {
+                    var List = _context.UserLikes.Where(t => t.ArticleId == Model.Id && t.UserId == userManager.GetUserId(User)).ToList();
+                    string style = "";
+                    string id_ = "";
+                    if (List.Count() == 0)
+                    {
+                        id_ = "LikeNo";
+                    }
+                    else
+                    {
+                        id_ = "LikeYes";
+                    }
+                    <button id="ButtonLike" class="@id_" onclick="SetLikeRequest(@Model.Id)" style="@style">
+                        <i class="ri-thumb-up-line"></i> Лайк
+                    </button>
+                }
+                else
+                {
+                    <button style="width:100px; height:30px; display:flex; justify-content:center; align-items:center; border:2px solid snow;">
+                        <i class="ri-thumb-up-line"></i> Лайк
+                    </button>
+                }
+            </div>
+        </div>
+
+        <hr class="lineHR" />
+
+        <div class="BlockWithComments" style="width:95%;">
+            <div class="BlockOfComments" style="display:flex; flex-direction:column;">
+                <h3>Написать комментарий:</h3>
+                <p id="ResultCreating"></p>
+                <input id="IdArticleComment" type="hidden" value="@Model.Id" />
+                <textarea class="InputAboutMe" style="width:100%; height: 200px; resize:none;" id="commentBody" type="text" value=""></textarea>
+                <button class="ButtonSettingUser" id="CommentButtonChange">Сохранить</button>
+            </div>
+        </div>
+        <hr class="lineHR" />
+
+        <div class="BlockWithComments" id="TypeContent" style="width:95%;">
+        </div>
+    </div>
+
+</div>
+@section Scripts
+{
+<script type="text/javascript">
+    function CreateList(){
+       $('#TypeContent').load('@Url.Action($"CommentList","Comment", new {id = Model.Id})');
+    }
+    $(document).ready(function() {
+        $("#CommentButtonChange").click(function(){
+            ChangeYearResult()
+        });
+    });
+    function ChangeYearResult(){
+        let text = document.getElementById("commentBody").value
+        let id_ = document.getElementById("IdArticleComment").value
+                let obj = {
+                    id: parseInt(id_),
+                    Text: text
+                }
+                console.log(obj)
+                $.ajax({
+                    url: "/Comment/Create",
+                    method: "POST",
+                    data: obj,
+                    success: function(data){
+                        document.getElementById("ResultCreating").innerText = data
+                    }
+                })
+    }
+    function CreateComment(){
+       let id_ =  document.getElementById("IdArticleComment").value;
+       let text = document.getElementById("commentBody").value
+       let obj = {
+           Id: parseInt(id_),
+           Text: text
+       }
+       let fd = new FormData
+       fd.append('id', parseInt(id_))
+       fd.append("Text", text)
+       console.log(fd)
+
+
+       $.ajax({
+         url : "/Comment/Create/",
+         method : "POST",
+         data: fd,
+         contentType: false,
+         processData: false,
+         success: function(data){
+         console.log(data)
+         var res = JSON.parse(data)
+             document.getElementById("ResultCreating").innerText = data;
+         },
+         error: function(err){
+                 console.log(err)
+         }
+      })
+    }
+
+    function SetLikeRequest(modelId){
+        let btn = document.getElementById("ButtonLike")
+        let fd = new FormData
+        fd.append('Id', parseInt(modelId))
+        if(btn.classList.contains("LikeNo")){
+            $.ajax({
+                 url : "/User/LikeArticle/",
+                 method : "POST",
+                 data: fd,
+                 contentType: false,
+                 processData: false,
+                 success: function(data){
+                 console.log(data)
+                 var res = JSON.parse(data)
+                     btn.classList.remove("LikeNo")
+                     btn.classList.add("LikeYes")
+                 },
+                 error: function(err){
+                         console.log(err)
+                 }
+            })
+        }
+        else{
+            $.ajax({
+                 url : "/User/RemoveLikeArticle/",
+                 method : "POST",
+                 data: fd,
+                 contentType: false,
+                 processData: false,
+                 success: function(data){
+                 console.log(data)
+                 var res = JSON.parse(data)
+                     btn.classList.remove("LikeYes")
+                     btn.classList.add("LikeNo")
+                 },
+                 error: function(err){
+                         console.log(err)
+                 }
+            })
+        }
+    }
+
+    function DeleteCommentuser(id_){
+            let fd = new FormData
+            fd.append('id', parseInt(id_))
+            $.ajax({
+                     url : "/Comment/DeleteComment/",
+                     method : "POST",
+                     data: fd,
+                     contentType: false,
+                     processData: false,
+                     success: function(data){
+                         console.log(data)
+                         let idBlock = "Block" + id_;
+                         document.getElementById(idBlock).remove();
+                     },
+                     error: function(err){
+                             console.log(err)
+                     }
+            })
+    }
+
+    CreateList()
+</script>
+}

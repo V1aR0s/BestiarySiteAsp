@@ -1,0 +1,53 @@
+﻿@model Test1.ViewModels.FiltersViewModel
+@{
+}
+<div class="Categories">
+    <h1>Мифология:</h1>
+
+    <div class="CategoriesBlock">
+        @foreach (var item in Model.mythologies)
+        {
+            <a asp-action = "Main" asp-route-Filters = "@item.Name" class="Block" style='background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url("@item.PhotoUrl")'>
+                <h1>@item.Name</h1>
+            </a>
+        }
+    </div>
+</div>
+<div class="Categories">
+    <h1>Тип существа:</h1>
+
+    <div class="CategoriesBlock">
+        @foreach (var item in Model.creatureTypes)
+        {
+            <a asp-action = "Main" asp-route-Filters = "@item.Name" class="Block" style='height:50px; font-size:19px; color:snow; align-items:center; text-decoration:none;'>
+                <h1>@item.Name</h1>
+            </a>
+        }
+    </div>
+</div>
+
+<div class="Categories">
+    <h1>Дружелюие:</h1>
+
+    <div class="CategoriesBlock">
+        @foreach (var item in Model.dangerTypes)
+        {
+            <a asp-action = "Main" asp-route-Filters = "@item.Name" class="Block" style='height:50px; font-size:19px; color:snow; align-items:center; text-decoration:none;'>
+                <h1>@item.Name</h1>
+            </a>
+        }
+    </div>
+</div>
+<div class="Categories">
+    <h1>Пол:</h1>
+
+    <div class="CategoriesBlock">
+        @foreach (var item in Model.sexes)
+        {
+            <a asp-action = "Main" asp-route-Filters = "@item.Name" class="Block" style='height:50px; font-size:19px; color:snow; align-items:center; text-decoration:none;'>
+                <h1>@item.Name</h1>
+            </a>
+        }
+    </div>
+</div>
+
